@@ -205,7 +205,7 @@ The AKS cluster and all the related resources will be deployed directly using th
 
     Azure CLI will merge the references of the newly created AKS cluster with the local _kubectl_ configuration  
 
-    ![alt text](imgs/mod_01_img_12.png "Azure CLI AKS Credentials configuration")
+    ![Azure CLI AKS Credentials configuration](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_12.png?raw=true)
 
 3. Get the nodes list using  _kubectl_ by executing the following command
 
@@ -215,7 +215,7 @@ The AKS cluster and all the related resources will be deployed directly using th
 
     that will show that our single-node AKS cluster is successfully running
 
-    ![alt text](imgs/mod_01_img_13.png "AKS Cluster running node")
+    ![AKS Cluster running node](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_13.png?raw=true)
 
 ## 5. Get the Application Insights Instrumentation Key
 
@@ -231,7 +231,7 @@ In the previous lab, by executing the step 3, you have already created the Appli
 
     the output will be similar to this:
 
-    ![alt text](imgs/mod_01_img_01.png "Getting of the Application Insights Instrumentation Key")
+    ![Getting of the Application Insights Instrumentation Key](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_01.png?raw=true)
 
 2. Take note of the GUID reported in the execution output of the previous command
 
@@ -253,11 +253,11 @@ So, let's proceed to edit the secret yaml file:
 
 2. Add the key, obtained in the previous step, to the _instrumentationkey_ yaml property, as shown in the following images
 
-    ![alt text](imgs/mod_01_img_02.png "Replacing of the instrumentation key value")
+    ![Replacing of the instrumentation key value](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_02.png?raw=true)
 
     in order to have the following final result
 
-     ![alt text](imgs/mod_01_img_03.png "Instrumentation key value replaced")
+     ![Instrumentation key value replaced](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_03.png?raw=true)
 
 3. Save the edited file by using Ctrl+S shortcut or File->Save menu item, then close VS Code
 
@@ -388,11 +388,11 @@ The secret key will be created within the cluster using the _kubectl_ CLI
 
 2. Open the URL http://\[**EXTERNAL_IP_PLACEHOLDER**\] replacing the placeholder with the public ip obtained in the previous step, then the home page of the single page application will be shown
 
-    ![alt text](imgs/mod_01_img_04.png "BookInfo SPA Home Page")
+    ![BookInfo SPA Home Page](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_04.png?raw=true)
 
 3. Click on the **Books** menu item at left to open the Books portal functionality
 
-    ![alt text](imgs/mod_01_img_05.png "Book Portal")
+    ![Book Portal](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_05.png?raw=true)
 
     If you are able to successfully see the book list and the related reviews, you can confirm that also the BookService API is working correctly.
 
@@ -406,16 +406,16 @@ The secret key will be created within the cluster using the _kubectl_ CLI
 4. Browse all Resource Groups by click on _Resource groups_ menu item on the left bar;
 5. You should see the two resource groups created in the Lab 1, as the following screenshot shows:
 
-    ![alt text](imgs/mod_01_img_06.png "Resource Groups")
+    ![Resource Groups](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_06.png?raw=true)
 
 6. Click on the RG named _MSReady19-Lab-RG_;
 7. Access to the Application Insights resource by clicking on _MSReady19-AI-APP-ST304-AppInsights_
 
-    ![alt text](imgs/mod_01_img_07.png "Application Insights")
+    ![Application Insights](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_07.png?raw=true)
 
 8. Click on _Analytics_ button to access the custom query editor
 
-    ![alt text](imgs/mod_01_img_08.png "Application Insights Analytics")
+    ![Application Insights Analytics](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_08.png?raw=true)
 
 9. Type the following query
 
@@ -426,13 +426,13 @@ The secret key will be created within the cluster using the _kubectl_ CLI
 
     into the query editor as shown in the following screenshot
 
-    ![alt text](imgs/mod_01_img_09.png "Application Insights Query")
+    ![Application Insights Query](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_09.png?raw=true)
 
     in order to retrieve info on requests with 200 result code handled in the last 24h;
 
 10. Wait a couple of minutes, needed for Azure Application Insights to collect telemetry, then click on _Run_ button, then you should see the results
 
-    ![alt text](imgs/mod_01_img_10.png "Application Insights Query Results")  
+    ![Application Insights Query Results](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_10.png?raw=true)  
     _(Please expect few differences in number between your query results and the above image)_
 
     indicating that the telemetry is correctly working.
