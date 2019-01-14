@@ -30,10 +30,10 @@ namespace BookService.Controllers
         {
             //FAULT - raise an exception when id = 2 or 4
             //if(id == 2 || id == 4)
-            //  throw new ArgumentException();
+            //    throw new ArgumentException();
 
-            //DELAY add 900 milliseconds delay
-            //Thread.Sleep(900); 
+            //DELAY add 1 second delay
+            //Thread.Sleep(1000);
 
             return _bookReviews.Where(x => x.BookId == id).ToList();
         }
