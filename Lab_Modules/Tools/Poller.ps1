@@ -7,7 +7,7 @@ Write-Host "Entering call loop"
 
 function CallApi ($url){
     $response = try { 
-        (Invoke-WebRequest -Uri $url -UseBasicParsing -ErrorAction Stop).StatusCode
+        (Invoke-WebRequest -Uri $url -UseBasicParsing -Headers @{"Cache-Control"="no-cache"} -ErrorAction Stop).StatusCode
     } catch [System.Net.WebException] { 
         $_.Exception.Response.StatusCode.Value__
     }
