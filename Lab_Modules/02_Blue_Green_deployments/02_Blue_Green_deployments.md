@@ -53,7 +53,7 @@
     kubectl get deployment ; kubectl get service
     ```
 
-    ![alt text](imgs/mod_02_img_01.png "kubectl output")  
+    ![kubectl output](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/02_Blue_Green_deployments/imgs/mod_02_img_01.png?raw=true)  
    Right now both environments, green (bookervice-v1.0) and blue (bookservice-2.0) are deployed, **but only one will receive live traffic**. In our case, the bookservice is configured to aim to the green environment.  
 
 3. Take note of the External-IP reported in the output, it will be used in the next step
@@ -70,7 +70,7 @@ At this point we need to generate some HTTP traffic versus the BookService API u
 
     as the following screenshot
 
-    ![alt text](imgs/mod_02_img_02.png "Execution Policy")
+    ![Execution Policy](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/02_Blue_Green_deployments/imgs/mod_02_img_02.png?raw=true)
 
 2. Type "Yes" and then hit _Enter_ to confirm the operation
 
@@ -90,7 +90,7 @@ At this point we need to generate some HTTP traffic versus the BookService API u
 
     As you can see below  
 
-    ![alt text](imgs/mod_02_img_03.png "Poller execution")
+    ![Poller execution](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/02_Blue_Green_deployments/imgs/mod_02_img_03.png?raw=true)
 
     the script runs a loop that provides two requests each seconds until you terminates it using _Ctrl+C_ shortcut
 
@@ -135,7 +135,7 @@ Keep the two powershell sessions side by side and execute the following commands
 
 2. As you can see below, as soon as the _service/bookservice_ aimed to the blue environment, the _poller.ps1_ script started to receive HTTP 500 (Internal Server Error status - the server encountered an unexpected error) as final status code, indicating a failure  
 
-    ![alt text](imgs/mod_02_img_04.png "Poller execution")
+    ![Poller execution](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/02_Blue_Green_deployments/imgs/mod_02_img_04.png?raw=true)
 
     You can notice that with Blue\Green deployment strategy we immediately switched from a version to another and hence is very useful to reduce\remove deployment downtime. Unfortunately, the switch to the new version introduced a bug in the code, but thanks to the Kubernetes infrastructure we can now easily perform a rollback.
 
@@ -157,6 +157,6 @@ Keep the two powershell sessions side by side and execute the following commands
    kubectl patch service bookservice -p $specJson
    ```
 
-    ![alt text](imgs/mod_02_img_05.png "Poller execution")
+    ![Poller execution](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/02_Blue_Green_deployments/imgs/mod_02_img_05.png?raw=true)
 
    as soon as k8s complete the patch operation, the BookService API started to send again HTTP 200 (Status OK) for the request related to the BookId = 2.
