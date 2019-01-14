@@ -55,7 +55,7 @@
 
     that will clearly shows the presence of 6 replicas of the BookService. Note that we need more than one replica of the pod in order to achieve an incremental rollout.
 
-    ![alt text](imgs/mod_03_img_01.png "BookService 6 replicas")
+    ![BookService 6 replicas](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/03_RollingUpdates/imgs/mod_03_img_01.png?raw=true)
 
 ## 3. Execute the Poller script
 
@@ -67,9 +67,10 @@
 
     in order to see how the BookService API correctly returns HTTP 200 for the Book ID 2 reviews
 
-    ![alt text](imgs/mod_03_img_02.png "BookService 6 replicas")
+    ![BookService 6 replicas](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/03_RollingUpdates/imgs/mod_03_img_02.png?raw=true)
 
 ## 4. Deploy BookService using Rolling Updates strategy
+
 We are now going to deploy a new version of the book service with a rolling update strategy; the new version will return an error when retrieving book reviews for BookId = 2 and BookId = 4.
 
 1. While the _poller.ps1_ script is running, from the PowerShell session we used to run _kubectl_ commands, run the following command in order to proceed with the deployment of the BookService API with a rolling updates strategy
@@ -89,7 +90,7 @@ We are now going to deploy a new version of the book service with a rolling upda
 
 2. Let's monitor the PowerShell session where _poller.ps1_ script is running, you'll start to see some failures for the  [BookId 2] HTTP call
 
-    ![alt text](imgs/mod_03_img_03.png "BookService RU deploy 1")
+    ![BookService RU deploy 1](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/03_RollingUpdates/imgs/mod_03_img_03.png?raw=true)
 
      You can use the following command to monitor the rolling out of your deployment:
 
@@ -99,12 +100,12 @@ We are now going to deploy a new version of the book service with a rolling upda
 
     that allows you to easily follow the whole operation until all new replicas result updated and the old one terminated
 
-    ![alt text](imgs/mod_03_img_08.png "BookService RU deploy 3")
+    ![BookService RU deploy 3](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/03_RollingUpdates/imgs/mod_03_img_08.png?raw=true)
     _During the rollout, you may receive a few HTTP 503 (Service Unavailable) codes._
 
     Then we can see that number of failures will gradually increase as the rolling update strategy upgrades all replicas to the new version
 
-    ![alt text](imgs/mod_03_img_04.png "BookService RU deploy 2")
+    ![BookService RU deploy 2](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/03_RollingUpdates/imgs/mod_03_img_04.png?raw=true)
 
     As the screenshots show, you can use
 
@@ -133,13 +134,13 @@ We are now going to deploy a new version of the book service with a rolling upda
     ```plain
     requests
     | where customDimensions["VersionTag"] contains "RU-"
-    | summarize duration = avg(duration), requestCount = count() by name, podVersion = tostring(customDimensions["VersionTag"]), resultCode 
+    | summarize duration = avg(duration), requestCount = count() by name, podVersion = tostring(customDimensions["VersionTag"]), resultCode
     | sort by name, podVersion
     ```
 
     Then hit "Run" query and you should get something similar to the following image:
 
-    ![alt text](imgs/mod_03_img_06.png "BookService RU deploy 2")  
+    ![BookService RU deploy 2](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/03_RollingUpdates/imgs/mod_03_img_06.png?raw=true)  
     _(Please expect few differences in number between your query results and the above image)_
 
     where the difference between the "**V1-RU-BookService**" and the "**V2-RU-BookService**", in terms of result code counters, are well highlighted
@@ -166,8 +167,8 @@ We are now going to deploy a new version of the book service with a rolling upda
 
     As you can see on the following screenshot
 
-    ![alt text](imgs/mod_03_img_09.png "BookService RU Undo 1")
+    ![BookService RU Undo 1](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/03_RollingUpdates/imgs/mod_03_img_09.png?raw=true)
 
     you may expect to receive a few HTTP 503 (Service Unavailable) response while the roll back is in progress, then after it completes all requests to "BookId 2" will consistently succeed.
 
-    ![alt text](imgs/mod_03_img_10.png "BookService RU Undo 2")
+    ![BookService RU Undo 2](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/03_RollingUpdates/imgs/mod_03_img_10.png?raw=true)
