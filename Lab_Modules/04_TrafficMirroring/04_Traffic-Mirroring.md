@@ -47,12 +47,12 @@
 
    ![image.png](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/04_TrafficMirroring/imgs/image-acc4a3b4-a429-4243-b5e0-3cb1c07850f8.png?raw=true)
 
-3. Wait a couple of minutes, needed for Azure Application Insights to collect telemetry, and paste the content of the "_C:\Labs\Lab_Modules\k8sconfigurations\mirroring\LogAnalyticsQuery.md_" file into Azure Log Analytics. 
+3. Wait a couple of minutes, needed for Azure Application Insights to collect telemetry, and paste the content of the "_C:\Labs\Lab_Modules\k8sconfigurations\mirroring\LogAnalyticsQuery.md_" file into Azure Log Analytics.
 
    ```plain
    requests
    | where customDimensions["VersionTag"] contains "MIR-"
-   | summarize duration = avg(duration), requestCount = count() by name, podVersion = tostring(customDimensions   ["VersionTag"]), resultCode 
+   | summarize duration = avg(duration), requestCount = count() by name, podVersion = tostring(customDimensions   ["VersionTag"]), resultCode
    | sort by name, podVersion
    ```
 
@@ -61,7 +61,7 @@
    ![image.png](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/04_TrafficMirroring/imgs/image-d02fbdc2-5510-4204-9809-706954155ed9.png?raw=true)  
    _Please expect few differences in number between your query results and the above image_.
 
-4. We are done with our first traffic mirroring! You can see from the query results above that, as we expected, result codes and duration are very close between mirrored and user facing service. 
+4. We are done with our first traffic mirroring! You can see from the query results above that, as we expected, result codes and duration are very close between mirrored and user facing service.
 
    In order to achieve that, we tagged traffic coming from user facing service with the attribute "podVersion" = "**V1MIR-LiveBookService**" and the traffic coming from mirrored service with the attribute "podVersion" = "**V2MIR-BookService**".
 
