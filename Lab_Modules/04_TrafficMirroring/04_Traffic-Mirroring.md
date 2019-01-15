@@ -14,6 +14,7 @@
     deployment.extensions "bookservice" deleted
     service "bookservice" deleted
     ```
+    _Note that if the poller.ps1 is running, you will experience Http 503 result codes_.
 
 2. Double check the results of the delete operation by executing:
 

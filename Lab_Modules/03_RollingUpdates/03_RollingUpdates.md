@@ -15,6 +15,7 @@
     deployment.extensions "bookservice-2.0" deleted
     service "bookservice" deleted
     ```
+    _Note that if the poller.ps1 is running, you will experience Http 503 result codes_.
 
 2. Wait few seconds and then double check the results of the delete operation by executing:
 
@@ -59,7 +60,7 @@
 
 ## 3. Execute the Poller script
 
-1. Using the PowerShell session, run the _poller.ps1_ script or use the web application to get some traffic for the BookService API by executing:
+1. Using the PowerShell session, run the _poller.ps1_ (or leverage the running one) script or use the web application to get some traffic for the BookService API by executing:
 
     ```powershell
     C:\Labs\Lab_Modules\Tools\Poller.ps1 -PublicIP $publicIP
