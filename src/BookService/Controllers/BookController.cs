@@ -28,6 +28,13 @@ namespace BookService.Controllers
         [HttpGet("[action]/{id}")]
         public IEnumerable<BookReview> Reviews(int id)
         {
+            //FAULT - raise an exception when id = 2 or 4
+            //if(id == 2 || id == 4)
+            //    throw new ArgumentException();
+
+            //DELAY add 1 second delay
+            //Thread.Sleep(1000);
+
             return _bookReviews.Where(x => x.BookId == id).ToList();
         }
 
