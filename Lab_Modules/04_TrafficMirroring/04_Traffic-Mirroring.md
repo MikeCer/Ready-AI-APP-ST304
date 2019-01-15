@@ -103,9 +103,9 @@ Then the configuration of two clusters is straightforward (note how the addresse
    ![image.png](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/04_TrafficMirroring/imgs/image-b8616c82-b892-44a2-86ba-9df3e048b002.png?raw=true)
    _Please expect few differences in number between your query results and the above image_.
 
-We have anticipated our first problem without impacting real users! You can see from Azure Log Analytics query results that the service with "**V3MIR-BookServiceDelay**" tag has an average duration of 1,208 milliseconds, while the "**V1MIR-LiveBookService**" (the version real users are seeing) still has an average requests duration of just 15 milliseconds meaning they are not impacted.
+We have anticipated our first problem without impacting real users! You can see from Azure Log Analytics query results that the service with "**V3MIR-BookServiceDelay**" tag has an average duration of 1,016 milliseconds, while the "**V1MIR-LiveBookService**" (the version real users are seeing) still has an average requests duration of just 8,5 milliseconds meaning they are not impacted.
 
-## 3. Introduce a fault in the mirrored service
+## 4. Introduce a fault in the mirrored service
 
 1. We're going to rollout a new version of our mirrored service, which introduces a fault while loading book reviews with BookId = 2 and BookId = 4 (the same fault we used for previous modules). Type following command:  
 

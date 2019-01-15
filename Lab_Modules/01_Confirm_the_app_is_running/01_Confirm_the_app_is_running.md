@@ -18,7 +18,7 @@
 4. Clone the official lab Git repo by executing  
 
    ```powershell
-   git clone https://github.com/felucian/Ready-AI-APP-ST304.git
+   git clone https://github.com/felucian/Ready-AI-APP-ST304.git .
    ```
 
 ## 2. Create a resource group
@@ -29,7 +29,7 @@
         az login
         ```
         If the CLI can open your default browser, it will do so and load a sign-in page.
-        Otherwise, you need to open a browser page and follow the instructions on the command line to enter an authorization code after navigating to https://aka.ms/devicelogin in your browser.
+        Otherwise, you need to open a browser page and follow the instructions on the command line to enter an authorization code after navigating to <https://aka.ms/devicelogin> in your browser.
     2. Sign in with your account lab (cloud slice) credentials in the browser
     3. Verify that the authenticated session has been correctly established checking the JSON structure returned that needs to contain your subscriptions information  
         ``` json
@@ -210,7 +210,7 @@ The AKS cluster and all the related resources will be deployed directly using th
 3. Get the nodes list using  _kubectl_ by executing the following command
 
     ```dos
-    kubectl get nodes 
+    kubectl get nodes
     ```
 
     that will show that our single-node AKS cluster is successfully running
@@ -386,7 +386,7 @@ The secret key will be created within the cluster using the _kubectl_ CLI
 
 1. Open Edge Browser;
 
-2. Open the URL http://\[**EXTERNAL_IP_PLACEHOLDER**\] replacing the placeholder with the public ip obtained in the previous step, then the home page of the single page application will be shown
+2. Open the URL <http://\[**EXTERNAL_IP_PLACEHOLDER**\]> replacing the placeholder with the public ip obtained in the previous step, then the home page of the single page application will be shown
 
     ![BookInfo SPA Home Page](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_04.png?raw=true)
 
@@ -401,7 +401,7 @@ The secret key will be created within the cluster using the _kubectl_ CLI
 ## 11. Check if telemetry is present on AppInsights
 
 1. Open Edge Browser;
-2. Open Azure Portal at https://portal.azure.com;
+2. Open Azure Portal at <https://portal.azure.com;>
 3. Sign-In using Cloud Slice credential provided within this Lab;
 4. Browse all Resource Groups by click on _Resource groups_ menu item on the left bar;
 5. You should see the two resource groups created in the Lab 1, as the following screenshot shows:
