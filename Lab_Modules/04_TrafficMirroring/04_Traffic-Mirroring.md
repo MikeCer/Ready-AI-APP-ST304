@@ -117,6 +117,7 @@ We have anticipated our first problem without impacting real users! You can see 
 2. At this point, let's browse again between book reviews from the web page or run the _poller.ps1_ as below:  
 
    ![image.png](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/04_TrafficMirroring/imgs/image-acc4a3b4-a429-4243-b5e0-3cb1c07850f8.png?raw=true)
+   _Note from the image above that we only receive Http 200 result codes as the fault is only present in the mirrored cluster._
 
 3. Wait a couple of minutes, needed for Azure Application Insights to collect telemetry, and paste the content of the "_C:\Labs\k8sconfigurations\mirroring\LogAnalyticsQuery.md_" file into Azure Log Analytics.
 
