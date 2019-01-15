@@ -144,7 +144,7 @@ We are now going to deploy a new version of the book service with a rolling upda
     ![BookService RU deploy 2](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/03_RollingUpdates/imgs/mod_03_img_06.png?raw=true)  
     _(Please expect few differences in number between your query results and the above image)_
 
-    where the difference between the "**V1-RU-BookService**" and the "**V2-RU-BookService**", in terms of result code counters, are well highlighted
+    where different Http result codes will display between "**V1-RU-BookService**" and the "**V2-RU-BookService**". 
 
 ## 5. Apply the rollback
 
