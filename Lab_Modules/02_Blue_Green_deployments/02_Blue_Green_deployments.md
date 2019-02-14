@@ -4,26 +4,22 @@
 
 1. Using the PowerShell session, remove existing _bookservice_ deployment and service with _kubectl_ by executing the following commands:
 
-    ```dos
-    kubectl delete deployment bookservice ; kubectl delete service bookservice
-    ```
+    +++kubectl delete deployment bookservice ; kubectl delete service bookservice+++
 
     that will return
 
-    ```plain
+    ```nocopy
     deployment.extensions "bookservice" deleted
     service "bookservice" deleted
     ```
 
 2. Wait few seconds and then double check the results of the delete operation by executing:
 
-    ```dos
-    kubectl get pod; kubectl get service
-    ```
+    +++kubectl get pod; kubectl get service+++
 
     that confirm the lack of references to the _bookservice_ pods and service
 
-    ```plain
+    ```nocopy
     NAME                            READY   STATUS    RESTARTS   AGE
     bookinfo-spa-57bdd84f98-92r2q   2/2     Running   0          39m
     NAME           TYPE           CLUSTER-IP   EXTERNAL-IP      PORT(S)        AGE
@@ -35,13 +31,11 @@
 
 1. Execute the following command
 
-   ```dos
-    kubectl apply -f C:\Labs\k8sconfigurations\blue-green\bookservice-blue-green.yaml
-   ```
+   +++kubectl apply -f C:\Labs\k8sconfigurations\blue-green\bookservice-blue-green.yaml+++
 
    that will return
 
-   ```plain
+   ```nocopy
     deployment.apps/bookservice-1.0 created
     deployment.apps/bookservice-2.0 created
     service/bookservice created
@@ -49,24 +43,20 @@
 
 2. Double check the results of the _apply_ operation by executing:
 
-     ```dos
-    kubectl get deployment ; kubectl get service
-    ```
+    +++kubectl get deployment ; kubectl get service+++
 
     ![kubectl output](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/02_Blue_Green_deployments/imgs/mod_02_img_01.png?raw=true)  
    Right now both environments, green (bookervice-v1.0) and blue (bookservice-2.0) are deployed, **but only one will receive live traffic**. In our case, the bookservice is configured to aim to the green environment.  
 
 3. Take note of the External-IP reported in the output, it will be used in the next step
 
-## 3. Generate HTTP requests vs the BookService API
+## 3. Generate HTTP requests against the BookService API
 
-At this point we need to generate some HTTP traffic versus the BookService API using the _poller.ps1_ PowerShell script; this will highlight the effects of the blue \ green deployment strategy once we proceed to execute the swap between green and blue version.
+At this point we need to generate some HTTP traffic against the BookService API using the _poller.ps1_ PowerShell script; this will highlight the effects of the blue \ green deployment strategy once we proceed to execute the swap between green and blue version.
 
-1. Start a new PowerShell as admin and execute the following command to allow the execution of the _poller.ps1_ script
+1. **Start a NEW PowerShell** as administrator and execute the following command to allow the execution of the _poller.ps1_ script
 
-    ```powershell
-    Set-ExecutionPolicy Unrestricted
-    ```
+    +++Set-ExecutionPolicy Unrestricted+++
 
     as the following screenshot
 
@@ -76,17 +66,13 @@ At this point we need to generate some HTTP traffic versus the BookService API u
 
 3. Set the PowerShell $publicIP variable to the external IP reported by _kubectl_ in the previous step by executing, in that case:
 
-    ```powershell
-    $publicIP = "<external-ip-of-bookinfospa-service>"
-    ```
-
-    replacing _\<external-ip-of-bookinfospa-service>_ with the external IP of your bookinfo-spa service as well.  
+    +++$publicIP = "[external-ip-of-bookinfospa-service]"+++
+    
+    replacing **"[external-ip-of-bookinfospa-service]"** with the external IP of your bookinfo-spa service as well.  
 
 4. The _poller.ps1_ script will make two requests on the BookService WebAPI, first calling the _/reviews/1_ (all the reviews of the Book with ID 1) then the _/review/2_ endpoint (all the reviews of the Book with ID 2), by executing:
 
-    ```powershell
-    C:\Labs\Lab_Modules\Tools\Poller.ps1 -PublicIP $publicIP
-    ```
+    +++C:\Labs\Lab_Modules\Tools\Poller.ps1 -PublicIP $publicIP+++
 
     As you can see below  
 
@@ -100,7 +86,7 @@ At this point we need to generate some HTTP traffic versus the BookService API u
 
 K8s use selectors to bind a service to a deployment. Looking at the file _\k8sconfigurations\blue-green\bookservice-blue-green.yaml_ we can notice that bookservice will forward traffic the deployment marked as **green**.
 
-```yaml
+```nocopy
 apiVersion: v1
 kind: Service
 metadata:
@@ -121,17 +107,11 @@ Keep the two powershell sessions side by side and execute the following commands
 
 1. Prepare the new $_spec_ and $_specJson_ variables by executing the following two commands:
 
-   ```powershell
-    $spec = '{"spec":{"selector":{"deployment":"blue"}}}'  
-
-    $specJson = $spec | ConvertTo-Json
-   ```
+    +++$spec = '{"spec":{"selector":{"deployment":"blue"}}}'; $specJson = $spec | ConvertTo-Json+++
 
    then execute _kubectl_ _patch_ command, passing the Json variable as input parameter to the _-p_ switch:
 
-   ```powershell
-   kubectl patch service bookservice -p $specJson
-   ```
+  +++kubectl patch service bookservice -p $specJson+++
 
 2. As you can see below, as soon as the _service/bookservice_ aimed to the blue environment, the _poller.ps1_ script started to receive HTTP 500 (Internal Server Error status - the server encountered an unexpected error) as final status code, indicating a failure  
 
@@ -145,18 +125,13 @@ Keep the two powershell sessions side by side and execute the following commands
 
    Prepare the new $_spec_ and $_specJson_ variables by executing the following two commands:
 
-   ```powershell
-    $spec = '{"spec":{"selector":{"deployment":"green"}}}'  
-
-    $specJson = $spec | ConvertTo-Json
-   ```
+   +++$spec = '{"spec":{"selector":{"deployment":"green"}}}' ; $specJson = $spec | ConvertTo-Json+++
 
    then execute _kubectl_ _patch_ command, passing the Json variable as input parameter to the _-p_ switch:
 
-   ```powershell
-   kubectl patch service bookservice -p $specJson
-   ```
+   +++kubectl patch service bookservice -p $specJson+++
 
     ![Poller execution](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/02_Blue_Green_deployments/imgs/mod_02_img_05.png?raw=true)
 
    as soon as k8s complete the patch operation, the BookService API started to send again HTTP 200 (Status OK) for the request related to the BookId = 2.
+

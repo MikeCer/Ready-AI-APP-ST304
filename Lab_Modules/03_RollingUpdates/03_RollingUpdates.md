@@ -4,13 +4,11 @@
 
 1. Using the PowerShell session alredy used for _kubectl_ remove existing _bookservice_ deployments and service by executing the following commands:
 
-    ```plain
-    kubectl delete deployment bookservice-1.0 bookservice-2.0 ; kubectl delete service bookservice
-    ```
+    +++kubectl delete deployment bookservice-1.0 bookservice-2.0 ; kubectl delete service bookservice+++
 
     that will return
 
-    ```plain
+    ```nocopy
     deployment.extensions "bookservice-1.0" deleted
     deployment.extensions "bookservice-2.0" deleted
     service "bookservice" deleted
@@ -19,13 +17,11 @@
 
 2. Wait few seconds and then double check the results of the delete operation by executing:
 
-    ```dos
-    kubectl get pod; kubectl get service
-    ```
+    +++kubectl get pod; kubectl get service+++
 
-    that confirm the lack of references to the _bookservice_ pods and service
+    that confirms the lack of references to the _bookservice_ pods and service
 
-    ```plain
+    ```nocopy
     NAME                            READY   STATUS    RESTARTS   AGE
     bookinfo-spa-57bdd84f98-92r2q   2/2     Running   0          39m
     NAME           TYPE           CLUSTER-IP   EXTERNAL-IP      PORT(S)        AGE
@@ -37,22 +33,18 @@
 
 1. Re-deploy the original BookService API by executing:
 
-    ```dos
-    kubectl apply -f C:\Labs\k8sconfigurations\rolling-updates\bookservice-V1-reduntant.yaml
-    ```
+    +++kubectl apply -f C:\Labs\k8sconfigurations\rolling-updates\bookservice-V1-reduntant.yaml+++
 
     that will return an output similar to this:
 
-    ```dos
+    ```nocopy
     deployment.apps/bookservice created
     service/bookservice created
     ```
 
 2. Wait few minutes and then double check the result of the apply operation by executing:
 
-     ```dos
-    kubectl get pods; kubectl get service
-    ```
+    +++kubectl get pods; kubectl get service+++
 
     that will clearly shows the presence of 6 replicas of the BookService. Note that we need more than one replica of the pod in order to achieve an incremental rollout.
 
@@ -62,9 +54,7 @@
 
 1. Using the PowerShell session, run the _poller.ps1_ (or leverage the running one) script or use the web application to get some traffic for the BookService API by executing:
 
-    ```powershell
-    C:\Labs\Lab_Modules\Tools\Poller.ps1 -PublicIP $publicIP
-    ```
+    +++C:\Labs\Lab_Modules\Tools\Poller.ps1 -PublicIP $publicIP+++
 
     in order to see how the BookService API correctly returns HTTP 200 for the Book ID 2 reviews
 
@@ -76,13 +66,11 @@ We are now going to deploy a new version of the book service with a rolling upda
 
 1. While the _poller.ps1_ script is running, from the PowerShell session we used to run _kubectl_ commands, run the following command in order to proceed with the deployment of the BookService API with a rolling updates strategy
 
-   ```dos
-   kubectl apply -f C:\Labs\K8sConfigurations\rolling-updates\bookservice-V2-rolling-update.yaml
-   ```
+   +++kubectl apply -f C:\Labs\K8sConfigurations\rolling-updates\bookservice-V2-rolling-update.yaml+++
 
    that returns
 
-   ```plain
+   ```nocopy
    deployment.apps/bookservice configured
    service/bookservice unchanged
    ```
@@ -95,9 +83,7 @@ We are now going to deploy a new version of the book service with a rolling upda
 
      You can use the following command to monitor the rolling out of your deployment:
 
-    ```dos
-    kubectl rollout status deployment bookservice
-    ```
+    +++kubectl rollout status deployment bookservice+++
 
     that allows you to easily follow the whole operation until all new replicas result updated and the old one terminated
 
@@ -110,21 +96,15 @@ We are now going to deploy a new version of the book service with a rolling upda
 
     As the screenshots show, you can use
 
-    ```dos
-    kubectl rollout status deployment bookservice
-    ```
+    +++kubectl rollout status deployment bookservice+++
 
     to monitor the rolling out operation
 
-    ```dos
-    kubectl get deployments
-    ```
+    +++kubectl get deployments+++
 
     to monitor the deployment status and
 
-    ```dos
-    kubectl get pods
-    ```
+    +++kubectl get pods+++
 
     to get details about the status of each replica pod, e.g. the age (time passed since the pod has started) and status.
 
@@ -132,12 +112,7 @@ We are now going to deploy a new version of the book service with a rolling upda
 
    Wait a couple of minutes, needed for Azure Application Insights to collect telemetry, and paste the content of the "_c:\Labs\k8configurations\rolling-updates\LogAnalyticsQuery.md_" file into Azure Log Analytics.
 
-    ```plain
-    requests
-    | where customDimensions["VersionTag"] contains "RU-"
-    | summarize duration = avg(duration), requestCount = count() by name, podVersion = tostring(customDimensions["VersionTag"]), resultCode
-    | sort by name, podVersion
-    ```
+    +++requests | where customDimensions["VersionTag"] contains "RU-" | summarize duration = avg(duration), requestCount = count() by name, podVersion = tostring(customDimensions["VersionTag"]), resultCode | sort by name, podVersion+++
 
     Then hit "Run" query and you should get something similar to the following image:
 
@@ -150,21 +125,17 @@ We are now going to deploy a new version of the book service with a rolling upda
 
 1. Start the undo deployment operation using _kubectl_ by executing:
 
-    ```dos
-    kubectl rollout undo deployment bookservice
-    ```
+    +++kubectl rollout undo deployment bookservice+++
 
     that will returns an output similar to this:
 
-    ```plain
+    ```nocopy
     deployment.extensions/bookservice rolled back
     ```
 
 2. On the _poller.ps1_ script PowerShell session checks the status codes received and, in the meantime, monitor the rollback by executing:
 
-    ```dos
-    kubectl rollout status deployment bookservice
-    ```
+    +++kubectl rollout status deployment bookservice+++
 
     As you can see on the following screenshot
 
@@ -173,3 +144,4 @@ We are now going to deploy a new version of the book service with a rolling upda
     you may expect to receive a few HTTP 503 (Service Unavailable) response while the roll back is in progress, then after it completes all requests to "BookId 2" will consistently succeed.
 
     ![BookService RU Undo 2](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/03_RollingUpdates/imgs/mod_03_img_10.png?raw=true)
+

@@ -2,37 +2,48 @@
 
 ## 1. Clone the AI-APP-ST304 Lab Git repo
 
-1. Start a PowerShell session
-2. Create the directory that will be the main Lab working folder by executing
+1. Logon the Lab VM using the following credentials:
+   
+   **Username:** +++@lab.VirtualMachine(Client).Username+++
 
-   ```powershell
-   mkdir C:\Labs
-   ```
+   **Password:** +++@lab.VirtualMachine(Client).Password+++
 
-3. Change directory to the Lab working folder by executing
+2. Start a PowerShell session
+3. Create the directory that will be the main Lab working folder by executing
 
-   ```powershell
-   cd c:\Labs
-   ```
+    +++mkdir C:\Labs+++
+   
 
-4. Clone the official lab Git repo by executing  
+4. Change directory to the Lab working folder by executing
 
-   ```powershell
-   git clone https://github.com/felucian/Ready-AI-APP-ST304.git .
-   ```
+  +++cd c:\Labs+++
+
+
+5. Clone the official lab Git repo by executing  
+
+   +++git clone https://github.com/felucian/Ready-AI-APP-ST304.git .+++
+
 
 ## 2. Create a resource group
 
 1. Sign-In interactively trough your browser with the _az login_ command; after signing in, CLI commands are run against your default subscription
     1. Run the _login_ command  
-         ```azurecli-interactive
-        az login
-        ```
+
+        
+        +++az login+++
+
         If the CLI can open your default browser, it will do so and load a sign-in page.
-        Otherwise, you need to open a browser page and follow the instructions on the command line to enter an authorization code after navigating to <https://aka.ms/devicelogin> in your browser.
-    2. Sign in with your account lab (cloud slice) credentials in the browser
+        Otherwise, you need to open a browser page and follow the instructions on the command line to enter an authorization code after navigating to +++https://aka.ms/devicelogin+++ in your browser.
+
+    2. Sign in with the Azure account lab credentials provided with this Lab 
+
+       **Username:** +++@lab.CloudPortalCredential(1).Username+++
+
+       **Password:** +++@lab.CloudPortalCredential(1).Password+++
+
     3. Verify that the authenticated session has been correctly established checking the JSON structure returned that needs to contain your subscriptions information  
-        ``` json
+    
+        ```nocopy
         [
             {
                 "cloudName": "AzureCloud",
@@ -48,24 +59,26 @@
             }
         ]
         ```
-        Same output can be obtained by executing the command
+        Same output can be obtained by executing the command 
 
-         ```azurecli-interactive
-        az account list
-        ```
+        
+        +++az account list+++
 
-2. Create the resource group by executing the command  
-    ```azurecli-interactive
-    az group create -l westus -n MSReady19-Lab-RG
-    ```
-    that will create a new RG named MSReady19-Lab-RG using West US region in your default subscription.  
+2. Create the resource group by executing the command 
+
+    
+    +++az group create -l westus -n @lab.CloudResourceGroup(1353).Name+++
+    
+
+    that will create a new RG named @lab.CloudResourceGroup(1353).Name using West US region in your default subscription.  
     The command will return a JSON structure like the following, indicating that the new RG has been successfully created.
-    ``` json
+
+    ```nocopy
     {
-        "id": "/subscriptions/cf1526b4-c3e0-4ce8-8782-686db66a4347/resourceGroups/MSReady19-Lab-RG",
+        "id": "/subscriptions/cf1526b4-c3e0-4ce8-8782-686db66a4347/resourceGroups/@lab.CloudResourceGroup(1353).Name",
         "location": "westus",
         "managedBy": null,
-        "name": "MSReady19-Lab-RG",
+        "name": "@lab.CloudResourceGroup(1353).Name",
         "properties": {
             "provisioningState": "Succeeded"
         },
@@ -77,24 +90,18 @@
 
 1. Prepare $_prop_ and $_propJson_ Powershell variables by executing the following two commands:
 
-   ```powershell
-     $prop = '{"ApplicationId":"MSReady19-AI-APP-ST304-AppInsights","Application_Type":"other","Flow_Type":"Redfield","Request_Source":"IbizaAIExtension"}'  
-
-     $propJson = $prop | ConvertTo-Json
-   ```
+   +++$prop = '{"ApplicationId":"MSReady19-AI-APP-ST304-AppInsights","Application_Type":"other","Flow_Type":"Redfield","Request_Source":"IbizaAIExtension"}';$propJson = $prop | ConvertTo-Json+++
 
 2. Create the resource using the Azure CLI _resource create_ command
 
-    ```powershell
-    az resource create --resource-group "MSReady19-Lab-RG" --resource-type "Microsoft.Insights/components" --name "MSReady19-AI-APP-ST304-AppInsights" --location "westus2" --properties $propJson
-    ```
+    +++az resource create --resource-group "@lab.CloudResourceGroup(1353).Name" --resource-type "Microsoft.Insights/components" --name "MSReady19-AI-APP-ST304-AppInsights" --location "westus2" --properties $propJson+++
 
     after the execution completion, the output will show a JSON object similar to this
 
-    ```json
+    ```nocopy
     {
         "etag": "\"9400df73-0000-0000-0000-5c278ebb0000\"",
-        "id": "/subscriptions/adef826a-7ef0-4705-b52c-708e062c03d1/resourceGroups/MSReady19-Lab-RG/providers/microsoft.insights/components/MSReady19-AI-APP-ST304-AppInsights",
+        "id": "/subscriptions/adef826a-7ef0-4705-b52c-708e062c03d1/resourceGroups/@lab.CloudResourceGroup(1353).Name/providers/microsoft.insights/components/MSReady19-AI-APP-ST304-AppInsights",
         "identity": null,
         "kind": "other",
         "location": "westus2",
@@ -119,7 +126,7 @@
             "Ver": "v2",
             "provisioningState": "Succeeded"
         },
-        "resourceGroup": "MSReady19-Lab-RG",
+        "resourceGroup": "@lab.CloudResourceGroup(1353).Name",
         "sku": null,
         "tags": {},
         "type": "microsoft.insights/components"
@@ -134,15 +141,13 @@ The AKS cluster and all the related resources will be deployed directly using th
 
 1. Execute the following command
 
-    ```azurecli-interactive
-    az aks create -g "MSReady19-Lab-RG" -n "MSReady19-AI-APP-ST304-AKS" --node-count 1 --generate-ssh-keys --kubernetes-version 1.9.11 --verbose
-    ```
+    +++az aks create -g "@lab.CloudResourceGroup(1353).Name" -n "MSReady19-AI-APP-ST304-AKS" --node-count 1 --generate-ssh-keys --kubernetes-version 1.9.11 --verbose+++
 
     that will automatically submit a deployment job in order to spin-up the AKS resource within the group previously created and then create the reserved resource group for all the components belonging to the managed Kubernetes infrastructure.
 
     After the execution completion, the output will show a JSON object similar to this:
 
-    ```json
+    ```nocopy
     {
         "aadProfile": null,
         "addonProfiles": null,
@@ -158,10 +163,10 @@ The AKS cluster and all the related resources will be deployed directly using th
             "vnetSubnetId": null
             }
         ],
-        "dnsPrefix": "MSReady19--MSReady19-Lab-RG-adef82",
+        "dnsPrefix": "MSReady19--@lab.CloudResourceGroup(1353).Name-adef82",
         "enableRbac": true,
-        "fqdn": "msready19--msready19-lab-rg-adef82-2a5df105.hcp.westus.azmk8s.io",
-        "id": "/subscriptions/adef826a-7ef0-4705-b52c-708e062c03d1/resourcegroups/MSReady19-Lab-RG/providers/Microsoft.ContainerService/managedClusters/MSReady19-AI-APP-ST304-AKS",
+        "fqdn": "msready19--@lab.CloudResourceGroup(1353).Name-adef82-2a5df105.hcp.westus.azmk8s.io",
+        "id": "/subscriptions/adef826a-7ef0-4705-b52c-708e062c03d1/resourcegroups/@lab.CloudResourceGroup(1353).Name/providers/Microsoft.ContainerService/managedClusters/MSReady19-AI-APP-ST304-AKS",
         "kubernetesVersion": "1.9.11",
         "linuxProfile": {
             "adminUsername": "azureuser",
@@ -183,9 +188,9 @@ The AKS cluster and all the related resources will be deployed directly using th
             "podCidr": "10.244.0.0/16",
             "serviceCidr": "10.0.0.0/16"
         },
-        "nodeResourceGroup": "MC_MSReady19-Lab-RG_MSReady19-AI-APP-ST304-AKS_westus",
+        "nodeResourceGroup": "MC_@lab.CloudResourceGroup(1353).Name_MSReady19-AI-APP-ST304-AKS_westus",
         "provisioningState": "Succeeded",
-        "resourceGroup": "MSReady19-Lab-RG",
+        "resourceGroup": "@lab.CloudResourceGroup(1353).Name",
         "servicePrincipalProfile": {
             "clientId": "6a948472-5d33-4826-95e4-1e66f0d40bca",
             "secret": null
@@ -199,9 +204,7 @@ The AKS cluster and all the related resources will be deployed directly using th
 
 2. In order to verify that your AKS is up & running, you need to use _kubectl_ tool, but first you have to get the credentials for your cluster by running the following command:
 
-    ```dos
-    az aks get-credentials --resource-group MSReady19-Lab-RG --name MSReady19-AI-APP-ST304-AKS
-    ```
+    +++az aks get-credentials --resource-group @lab.CloudResourceGroup(1353).Name --name MSReady19-AI-APP-ST304-AKS+++
 
     Azure CLI will merge the references of the newly created AKS cluster with the local _kubectl_ configuration  
 
@@ -209,9 +212,7 @@ The AKS cluster and all the related resources will be deployed directly using th
 
 3. Get the nodes list using  _kubectl_ by executing the following command
 
-    ```dos
-    kubectl get nodes
-    ```
+    +++kubectl get nodes+++
 
     that will show that our single-node AKS cluster is successfully running
 
@@ -225,15 +226,13 @@ In the previous lab, by executing the step 3, you have already created the Appli
 
 1. Execute the following command:
 
-    ```azurecli-interactive
-    az resource show -g "MSReady19-Lab-RG" -n "MSReady19-AI-APP-ST304-AppInsights" --resource-type "Microsoft.Insights/components" --query properties.InstrumentationKey
-    ```
+    +++az resource show -g "@lab.CloudResourceGroup(1353).Name" -n "MSReady19-AI-APP-ST304-AppInsights" --resource-type "Microsoft.Insights/components" --query properties.InstrumentationKey+++
 
     the output will be similar to this:
 
     ![Getting of the Application Insights Instrumentation Key](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_01.png?raw=true)
 
-2. Take note of the GUID reported in the execution output of the previous command
+2. Take note of the GUID reported in the execution output of the previous command with a copy&paste of the value into a Notepad window.
 
 ## 6. Add the Instrumentation Key to the K8S secret file
 
@@ -247,9 +246,7 @@ So, let's proceed to edit the secret yaml file:
 
 1. Open the k8s secret file in VS Code by executing in the PowerShell the following command:
 
-    ```dos
-    code C:\Labs\K8sConfigurations\secrets\instrumentationkey.yaml
-    ```
+    +++code C:\Labs\K8sConfigurations\secrets\instrumentationkey.yaml+++
 
 2. Add the key, obtained in the previous step, to the _instrumentationkey_ yaml property, as shown in the following images
 
@@ -267,24 +264,21 @@ The secret key will be created within the cluster using the _kubectl_ CLI
 
 1. Execute the following command and wait for the execution
 
-    ```dos
-    kubectl create -f C:\Labs\K8sConfigurations\secrets\instrumentationkey.yaml
-    ```
+    +++kubectl create -f C:\Labs\K8sConfigurations\secrets\instrumentationkey.yaml+++
 
     the output will be:
 
-    ```dos
+    ```nocopy
     secret/appinsightskey created
     ```
+
 2. Double check the presence of the secret by executing the following command:
 
-    ```dos
-    kubectl get secrets
-    ```
+    +++kubectl get secrets+++
 
     that will return an output similar to this:
 
-    ```plain
+    ```nocopy
     NAME                  TYPE                                  DATA   AGE
     appinsightskey        Opaque                                1      92m
     default-token-d9qrw   kubernetes.io/service-account-token   3      164m
@@ -294,26 +288,22 @@ The secret key will be created within the cluster using the _kubectl_ CLI
 
 1. Deploy the Book Service Web API using _/k8sconfigurations/default/bookservice-v1.yaml_ file trought _kubectl_ CLI, by executing:
 
-    ```dos
-    kubectl create -f C:\Labs\K8sConfigurations\default\bookservice-V1.yaml
-    ```
+    +++kubectl create -f C:\Labs\K8sConfigurations\default\bookservice-V1.yaml+++
 
     that will return an output similar to this:
 
-    ```dos
+    ```nocopy
     deployment.apps/bookservice created
     service/bookservice created
     ```
 
 2. Wait few minutes and then check if the BookService _pod_ is correctly running by executing:
 
-    ```dos
-    kubectl get pods
-    ```
+    +++kubectl get pods+++
 
     that will return an output similar to this:
 
-    ```plain
+    ```nocopy
     NAME                           READY   STATUS    RESTARTS   AGE
     bookservice-5bdd9968b5-trrxx   1/1     Running   0          11s
     ```
@@ -322,58 +312,54 @@ The secret key will be created within the cluster using the _kubectl_ CLI
 
 3. Check if the BookService _service_ is correctly configured and a cluster IP has been successfully assigned by executing:
 
-    ```dos
-    kubectl get service
-    ```
-
+    +++kubectl get service+++
+    
     that will return an output similar to the following:
 
-    ```plain
+    ```nocopy
+
     NAME          TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE
     bookservice   ClusterIP   10.0.98.140   <none>        80/TCP    23s
     kubernetes    ClusterIP   10.0.0.1      <none>        443/TCP   20h
+    
     ```
 
 ## 9. Deploy the BookInfo SPA
 
 1. Deploy the BookInfo Single Page Application using _/k8sconfigurations/default/bookinfo-spa.yaml_ file trought _kubectl_ CLI, by executing:
 
-    ```dos
-    kubectl create -f C:\Labs\K8sConfigurations\default\bookinfo-spa.yaml
-    ```
+    +++kubectl create -f C:\Labs\K8sConfigurations\default\bookinfo-spa.yaml+++
 
     that will return an output similar to this:
 
-    ```plain
+    ```nocopy
+
     deployment.apps/bookinfo-spa created
     service/bookinfo-spa created
+    
     ```
 
-2. As the deployment file, the pods related to the BookInfo SPA needs to have 2 replicas, so we need to check if both replicas are currently running by executing:
+2. As the deployment file, the pods related to the BookInfo SPA contains two containers, so we need to check if both are currently running by executing:
 
-    ```dos
-    kubectl get pods
-    ```
+    +++kubectl get pods+++
 
     that will return an output similar to this:
 
-    ```plain
+    ```nocopy
     NAME                            READY   STATUS    RESTARTS   AGE
     bookinfo-spa-57bdd84f98-8jmm9   2/2     Running   0          44s
     bookservice-5bdd9968b5-trrxx    1/1     Running   0          28m
     ```
 
-    indicating that 2 of 2 replicas are have status as _running_
+    indicating that 2 of 2 containers have status as _running_
 
-3. Since, we need to expose the Web Application to external users, BookInfo SPA deployment file also contains the definition for a _LoadBalancer_ k8s service that provides the configuration of an external IP that will be used to reach the sidecar proxy and then the web application. You can check the service status and retrieve the external IP by executing:
+3. Since, we need to expose the Web Application to external users, BookInfo SPA deployment file also contains the definition for a _LoadBalancer_ k8s service that provides the BookInfo SPA service with a public IP. You can check the service status and retrieve the external IP by executing:
 
-    ```dos
-    kubectl get service
-    ```
+    +++kubectl get service+++
 
     that will return an output similar to this:
 
-    ```plain
+    ```nocopy
     NAME           TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)        AGE
     bookinfo-spa   LoadBalancer   10.0.75.9     104.42.174.161   80:30654/TCP   7m4s
     bookservice    ClusterIP      10.0.98.140   <none>           80/TCP         35m
@@ -386,7 +372,7 @@ The secret key will be created within the cluster using the _kubectl_ CLI
 
 1. Open Edge Browser;
 
-2. Open the URL <http://\[**EXTERNAL_IP_PLACEHOLDER**\]> replacing the placeholder with the public ip obtained in the previous step, then the home page of the single page application will be shown
+2. Open the URL <**http://[**EXTERNAL_IP_PLACEHOLDER**]>** replacing the placeholder with the public ip obtained in the previous step, then the home page of the single page application will be shown
 
     ![BookInfo SPA Home Page](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_04.png?raw=true)
 
@@ -401,14 +387,19 @@ The secret key will be created within the cluster using the _kubectl_ CLI
 ## 11. Check if telemetry is present on AppInsights
 
 1. Open Edge Browser;
-2. Open Azure Portal at <https://portal.azure.com;>
-3. Sign-In using Cloud Slice credential provided within this Lab;
+2. Open Azure Portal at +++https://portal.azure.com+++
+3. Sign in with the Azure account lab credentials provided with this Lab 
+
+       **Username:** +++@lab.CloudPortalCredential(1).Username+++
+
+       **Password:** +++@lab.CloudPortalCredential(1).Password+++
+
 4. Browse all Resource Groups by click on _Resource groups_ menu item on the left bar;
-5. You should see the two resource groups created in the Lab 1, as the following screenshot shows:
+5. You should see the resource group created in the Lab 1, as the following screenshot shows:
 
     ![Resource Groups](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_06.png?raw=true)
 
-6. Click on the RG named _MSReady19-Lab-RG_;
+6. Click on the RG named _@lab.CloudResourceGroup(1353).Name_;
 7. Access to the Application Insights resource by clicking on _MSReady19-AI-APP-ST304-AppInsights_
 
     ![Application Insights](https://github.com/felucian/Ready-AI-APP-ST304/blob/master-private/Lab_Modules/01_Confirm_the_app_is_running/imgs/mod_01_img_07.png?raw=true)
@@ -419,10 +410,7 @@ The secret key will be created within the cluster using the _kubectl_ CLI
 
 9. Type the following query
 
-    ```loganalytics
-    requests
-     | where resultCode == 200
-    ```
+    +++requests | where resultCode == 200+++
 
     into the query editor as shown in the following screenshot
 
